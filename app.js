@@ -69,3 +69,63 @@ const symbolsEl = document.querySelector(`#symbols`);
 const lengthEl = document.querySelector(`#length`);
 const generateEl = document.querySelector(`#generate`);
 
+// Function that accepts true or false values as well as a number as arguments
+// Note: The checkbox inputs and number (aka length) input will determine the value/arguments entered into this function
+function generatePassword(lower, upper, number, symbol, length){
+
+    console.log(lower, upper, number, symbol, length);
+    // 1. Create the password variable
+    let generatedPassword = ``;
+
+    // 2. Filter out unchecked options 
+    // True and false values can be added together (True is 1 and false is 0)
+    // Note: the value set to typesCount will be used when building the password
+    const typesCount = lower + upper + number + symbol;
+    console.log(typesCount);
+
+    // If the user has not selected any of the four options, then display alert and return an empty string from the function so the password displayed will just be an empty string
+    if(typesCount === 0){
+        alert(`Please select at least one option`);
+        // Return keyword stops/ends the execution of a function (aka does not run any of the code on the lines that follow the return in the function)
+        return ``;
+    }
+
+    // Creating an array of arrays. The first item in each nested array holds the value of a string that will be used to access a function in the randomFunctions object. Also, the second item in the each nested array is one of the values passed into this generatePassword function.
+    let typesArr = [
+        [`lower`, lower],
+        [`upper`, upper],
+        [`number`, number],
+        [`symbol`, symbol]
+    ];
+
+    // The filter method creates a new array with all the items that pass the test implemented by the provided function (aka all the items that cause the function to return a boolean value of true when the function is run using the item as an argument for the item parameter in this example)
+    // Checking if the value for each item in the array is true or false. Also removing the item from the array if it is false
+    typesArr = typesArr.filter(item => {
+        console.log(item[1]);
+        return item[1];
+    });
+    console.log(`typesArr:`, typesArr);
+    // 3. Loop over the length and call the generator function for each checked option
+    // Building password with a for loop
+    // Note: The value for "length" is the value selected for the length number input
+    for (i = 0; i < length; i += typesCount){
+        // One of the items in the updated/filtered version of the typesArr will be the value/argument passed into for the type parameter each time the anonymous arrow function is run/executed
+        typesArr.forEach(type => {
+            const funcName = type[0];
+            console.log(funcName);
+            // Accessing and running/executing a function in the randomFunctions object. Also, adding/concatenating the value returned from the accessed function to the generatedPassword string variable
+            generatedPassword += randomFunctions[funcName]();
+            console.log(generatedPassword);
+        });
+    }
+
+    // 4. Add the generated password to the final variable and return it from the function
+    // Removing extra characters if necessary) The above loop will create a password that may not match the length selected if that length is not a multiple of the number of options/checkboxes selected)
+    const finalPassword = generatedPassword.slice(0, length);
+
+    return finalPassword;
+}
+
+// Example of generatePassword function 
+// Note: Using the starting value for when the page first loads
+generatePassword(true, false, true, false, 3);
