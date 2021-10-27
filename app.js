@@ -122,10 +122,25 @@ function generatePassword(lower, upper, number, symbol, length){
     // 4. Add the generated password to the final variable and return it from the function
     // Removing extra characters if necessary) The above loop will create a password that may not match the length selected if that length is not a multiple of the number of options/checkboxes selected)
     const finalPassword = generatedPassword.slice(0, length);
-
+    console.log(finalPassword);
     return finalPassword;
 }
 
 // Example of generatePassword function 
 // Note: Using the starting value for when the page first loads
-generatePassword(true, false, true, false, 3);
+generatePassword(true, false, true, false, 4);
+
+// Event listener for when the "Generate Password" button is clicked
+generateEl.addEventListener(`click`, () => {
+    // Checking if the following options/checkboxes are selected and setting the true or false values to the respective variables
+    const hasLower = lowercaseEl.checked;
+    const hasUpper = uppercaseEl.checked;
+    const hasNumber = numbersEl.checked;
+    const hasSymbol = symbolsEl.checked;
+    
+    // Accessing the value for the number input and changing the value from string to a number
+    // Note: the value returned from a number input is a string value
+    const length = lengthEl.value;
+
+    console.log(hasLower, hasUpper, hasNumber, hasSymbol, length);
+});
