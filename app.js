@@ -140,7 +140,10 @@ generateEl.addEventListener(`click`, () => {
     
     // Accessing the value for the number input and changing the value from string to a number
     // Note: the value returned from a number input is a string value
-    const length = lengthEl.value;
+    const length = parseInt(lengthEl.value);
 
     console.log(hasLower, hasUpper, hasNumber, hasSymbol, length);
+
+    // The generatePassword function takes the true/false values determined by the checkboxes as well as the number from the number input as arguments and returns a sting (aka the password) which is set as the innerText value fro the "result" (aka Span) element
+    resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
 });
